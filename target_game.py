@@ -68,3 +68,31 @@ def get_words(f, letters):
                     if checker1:
                         words.append(line)
     return words
+
+def get_pure_user_words(user_words, letters, words_from_dict):
+    """
+    (list, list, list) -> list
+    Checks user words with the rules and returns list of those words
+    that are not in dictionary.
+    >>> get_pure_user_words(['izote', 'hexoz', 'hhexoz'],\
+['h', 'e', 'x', 'o', 'z', 'm', 't', 'y', 'i'],\
+get_words("en.txt", ['h', 'e', 'x', 'o', 'z', 'm', 't', 'y', 'i']))
+    ['hexoz']
+    """
+    letters_occrances = []
+    for let in set(letters):
+        letters_occrances.append((let,letters.count(let)))
+    pure_words = []
+    for word in user_words:
+        if (word not in words_from_dict and letters[4] in word
+        and len(word)>=4):
+            is_pure = True
+            for lett in word:
+                if lett not in letters:
+                    is_pure = False
+            for a in letters_occrances:
+                if a[1] < word.count(a[0]):
+                    is_pure = False
+            if is_pure:
+                pure_words.append(word)
+    return pure_words
