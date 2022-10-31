@@ -96,3 +96,36 @@ get_words("en.txt", ['h', 'e', 'x', 'o', 'z', 'm', 't', 'y', 'i']))
             if is_pure:
                 pure_words.append(word)
     return pure_words
+
+def results(players_words, dict_words, pure_words):
+    """
+    (list, list, list) -> str
+    Takes list of suitable user words, suitable words from dictionary
+    and user words not from dictionary.
+    """
+    missed_words = []
+    suitable_words = []
+    for word in dict_words:
+        if word in players_words:
+            suitable_words.append(word)
+        else:
+            missed_words.append(word)
+    with open("results.txt", "w") as file:
+        file.write("Suitable players words: " + str(suitable_words) + "\n")
+        file.write("All possible suitable words: " + str(dict_words) + "\n")
+        file.write("Missed words: " + str(missed_words) + "\n")
+        file.write("Players words not from dict: " + str(pure_words) + "\n")
+    result_message = f"""Suitable players words: {suitable_words}
+All possible suitable words: {dict_words}
+Missed words: {missed_words}
+Players words not from dict: {pure_words}
+    """
+    return result_message
+
+print(results(got_user_words, get_words("en.txt", letters_list),
+get_pure_user_words(got_user_words, letters_list,
+get_words("en.txt", letters_list))))
+
+if __name__ == "__main__":
+    import doctest
+    print(doctest.testmod())
