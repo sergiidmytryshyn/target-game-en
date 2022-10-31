@@ -35,3 +35,36 @@ def get_user_words():
         return users_words
 
 got_user_words = get_user_words()
+
+def get_words(f, letters):
+    """
+    (str, list) -> list
+    Reads the file f. Checks the words with rules and returns a\
+    list of words.
+    >>> get_words("en.txt", ['h', 'e', 'x', 'o', 'z', 'm', 't', 'y', 'i'])
+    ['izote', 'mythize', 'toze', 'zemi', 'zyme', 'zymite', 'zythem']
+    """
+    with open(f, "r", encoding="utf-8") as file:
+        letters_occrances = []
+        for let in set(letters):
+            letters_occrances.append((let,letters.count(let)))
+        words = []
+        k = 0
+        for line in file:
+            k += 1
+            line = line.strip().lower()
+            checker = True
+            checker1 = True
+            if k < 3:
+                checker = False
+            if letters[4] in line and len(line)>=4:
+                for b in line:
+                    if b not in letters:
+                        checker=False
+                if checker:
+                    for a in letters_occrances:
+                        if a[1]<line.count(a[0]):
+                            checker1 = False
+                    if checker1:
+                        words.append(line)
+    return words
